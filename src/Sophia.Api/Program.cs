@@ -1,6 +1,9 @@
+using DotNetEnv;
 using Sophia.Api;
 using Sophia.Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
