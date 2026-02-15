@@ -1,7 +1,13 @@
-﻿version: '3'
+version: '3'
 
 tasks:
   build:
+    cmd: docker compose exec sophia dotnet build
+
+  exec:
+    cmd: docker compose exec sophia dotnet exec
+
+  docker_build:
     desc: Build the Docker images without cache
     cmd: docker compose build --pull --no-cache
 
@@ -20,8 +26,8 @@ tasks:
   bash:
     desc: exec bash
     cmd: docker compose exec sophia bash
-    
+
   migrate:
     desc: Run the migrations
     cmds:
-      - docker compose exec sophia bash -c "cd /code/src/Sophia.Api && dotnet ef database update"
+      - docker compose exec sophia bash -c "cd /code/src/Sophia.Db && dotnet ef database update"
