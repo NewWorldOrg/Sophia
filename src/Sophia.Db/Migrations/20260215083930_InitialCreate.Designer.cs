@@ -12,7 +12,7 @@ using Sophia.Infrastructure.DbContext;
 namespace Sophia.Db.Migrations
 {
     [DbContext(typeof(SophiaContext))]
-    [Migration("20260215080429_InitialCreate")]
+    [Migration("20260215083930_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,6 +73,18 @@ namespace Sophia.Db.Migrations
                         .HasName("pk_admin_user");
 
                     b.ToTable("admin_user", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(529),
+                            Emai = "takada-yuki@new-world.local",
+                            Name = "高田憂希",
+                            Role = 0,
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(793)
+                        });
                 });
 
             modelBuilder.Entity("Sophia.Infrastructure.Models.User", b =>
@@ -128,6 +140,28 @@ namespace Sophia.Db.Migrations
                         .HasDatabaseName("ix_users_emai");
 
                     b.ToTable("users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9227),
+                            Emai = "aya-yamane@new-world.local",
+                            IconUrl = "",
+                            Name = "山根綺",
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9490)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743),
+                            Emai = "kuwahara-yukinew-world.local",
+                            IconUrl = "",
+                            Name = "桑原由気",
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743)
+                        });
                 });
 
             modelBuilder.Entity("Sophia.Infrastructure.Models.UserDefinitiveRegisterToken", b =>

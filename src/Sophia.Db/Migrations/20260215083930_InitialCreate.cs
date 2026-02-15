@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Sophia.Db.Migrations
 {
     /// <inheritdoc />
@@ -64,6 +66,20 @@ namespace Sophia.Db.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.InsertData(
+                table: "admin_user",
+                columns: new[] { "id", "created_at", "emai", "name", "role", "status", "updated_at" },
+                values: new object[] { 1L, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(529), "takada-yuki@new-world.local", "高田憂希", 0, 0, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(793) });
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "id", "created_at", "emai", "icon_url", "name", "status", "updated_at" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9227), "aya-yamane@new-world.local", "", "山根綺", 0, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9490) },
+                    { 2L, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743), "kuwahara-yukinew-world.local", "", "桑原由気", 0, new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743) }
                 });
 
             migrationBuilder.CreateIndex(

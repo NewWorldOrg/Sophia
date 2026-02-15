@@ -2,6 +2,7 @@ namespace Sophia.Infrastructure.DbContext;
 
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Sophia.Infrastructure.Seeders;
 
 public class SophiaContext(DbContextOptions options) : DbContext(options)
 {
@@ -13,5 +14,8 @@ public class SophiaContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>();
+
+        AdminUserSeeder.Seed(modelBuilder);
+        UserSeeder.Seed(modelBuilder);
     }
 }
