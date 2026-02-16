@@ -1,4 +1,4 @@
-﻿services:
+services:
   sophia:
     build:
       context: .
@@ -7,12 +7,23 @@
       - "traefik.enable=true"
       - "traefik.http.routers.sophia.rule=Host(`sophia.localhost`)"
       - "traefik.http.services.sophia.loadbalancer.server.port=80"
+      # Route grace.localhost/auth0/* and /api/* to sophia
+      - "traefik.http.routers.sophia-auth.rule=Host(`grace.localhost`) && PathPrefix(`/auth0`)"
+      - "traefik.http.routers.sophia-auth.service=sophia"
+      - "traefik.http.routers.sophia-api.rule=Host(`grace.localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.sophia-api.service=sophia"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - .:/code
       - /code/src/Sophia.Api/bin
       - /code/src/Sophia.Api/obj
+      - /code/src/Sophia.Domain/bin
+      - /code/src/Sophia.Domain/obj
+      - /code/src/Sophia.Infrastructure/bin
+      - /code/src/Sophia.Infrastructure/obj
+      - /code/src/Sophia.Db/bin
+      - /code/src/Sophia.Db/obj
     networks:
       - default
       - docker_default
@@ -28,23 +39,22 @@
         "http://0.0.0.0:80",
       ]
   db:
-    image: mysql:9.1.0
+    image: postgres:17
     volumes:
-      - db-store:/var/lib/mysql
+      - db-store:/var/lib/postgresql/data
       - ./docker/db/init.sql:/docker-entrypoint-initdb.d/0.sql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - TZ=${TZ}
+      - POSTGRES_DB=sophia
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - default
     labels:
       - "traefik.enable=false"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
 
 volumes:
   db-store:

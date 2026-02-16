@@ -1,15 +1,13 @@
 namespace Sophia.Api.Controllers;
 
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    [HttpGet("/")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public IActionResult Index()
     {
-        _logger = logger;
+        return Content("高田憂希しか好きじゃない");
     }
 }

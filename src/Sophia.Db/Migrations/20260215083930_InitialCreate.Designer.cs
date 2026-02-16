@@ -2,17 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Sophia.Api.DbContext;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using Sophia.Infrastructure.DbContext;
 
 #nullable disable
 
-namespace Sophia.Api.Migrations
+namespace Sophia.Db.Migrations
 {
     [DbContext(typeof(SophiaContext))]
-    [Migration("20250414042652_InitialCreate")]
+    [Migration("20260215083930_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,49 +21,51 @@ namespace Sophia.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Sophia.Api.Models.AdminUser", b =>
+            modelBuilder.Entity("Sophia.Infrastructure.Models.AdminUser", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasComment("作成日時");
 
                     b.Property<string>("Emai")
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("emai")
                         .HasComment("メールアドレス");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name")
                         .HasComment("名前");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Role")
+                        .HasMaxLength(255)
+                        .HasColumnType("integer")
                         .HasColumnName("role")
                         .HasComment("ロール");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Status")
+                        .HasMaxLength(255)
+                        .HasColumnType("integer")
                         .HasColumnName("status")
                         .HasComment("ステータス");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
                         .HasComment("更新日時");
 
@@ -75,55 +77,58 @@ namespace Sophia.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1ul,
-                            CreatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 523, DateTimeKind.Utc).AddTicks(3664),
+                            Id = 1L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(529),
                             Emai = "takada-yuki@new-world.local",
                             Name = "高田憂希",
-                            Role = "System",
-                            Status = "Valid",
-                            UpdatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 523, DateTimeKind.Utc).AddTicks(3896)
+                            Role = 0,
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(793)
                         });
                 });
 
-            modelBuilder.Entity("Sophia.Api.Models.User", b =>
+            modelBuilder.Entity("Sophia.Infrastructure.Models.User", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasComment("作成日時");
 
                     b.Property<string>("Emai")
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("emai")
                         .HasComment("メールアドレス");
 
                     b.Property<string>("IconUrl")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("icon_url")
                         .HasComment("アイコンURL");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name")
                         .HasComment("名前");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Status")
+                        .HasMaxLength(255)
+                        .HasColumnType("integer")
                         .HasColumnName("status")
                         .HasComment("ステータス");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
                         .HasComment("更新日時");
 
@@ -139,62 +144,62 @@ namespace Sophia.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1ul,
-                            CreatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 524, DateTimeKind.Utc).AddTicks(1915),
+                            Id = 1L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9227),
                             Emai = "aya-yamane@new-world.local",
                             IconUrl = "",
                             Name = "山根綺",
-                            Status = "Valid",
-                            UpdatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 524, DateTimeKind.Utc).AddTicks(2078)
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9490)
                         },
                         new
                         {
-                            Id = 2ul,
-                            CreatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 524, DateTimeKind.Utc).AddTicks(2217),
+                            Id = 2L,
+                            CreatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743),
                             Emai = "kuwahara-yukinew-world.local",
                             IconUrl = "",
                             Name = "桑原由気",
-                            Status = "Valid",
-                            UpdatedAt = new DateTime(2025, 4, 14, 4, 26, 51, 524, DateTimeKind.Utc).AddTicks(2217)
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 2, 15, 8, 39, 29, 573, DateTimeKind.Utc).AddTicks(9743)
                         });
                 });
 
-            modelBuilder.Entity("Sophia.Api.Models.UserDefinitiveRegisterToken", b =>
+            modelBuilder.Entity("Sophia.Infrastructure.Models.UserDefinitiveRegisterToken", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasComment("作成日時");
 
                     b.Property<DateTime>("ExpiredAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expired_at")
                         .HasComment("有効期限");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_verified");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("token")
                         .HasComment("トークン");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
                         .HasComment("更新日時");
 
-                    b.Property<ulong>("UserId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
