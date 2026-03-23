@@ -16,7 +16,7 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
             drugs?.LastPage ?? 0,
             drugs?.PerPage ?? 0,
             drugs?.Total ?? 0,
-            drugs?.Data?.Select(d => new DrugDetailDomain(d.Id, d.Name, d.Url)).ToList() ?? []
+            drugs?.Data?.Select(d => new DrugDetailDomain(d.Id, d.Name, d.Url, d.Note)).ToList() ?? []
         );
     }
 
@@ -24,7 +24,7 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
     {
         var result = await client.ApiDrugsGetAsync(id);
         var drug = result.Data?.Drug;
-        return new DrugDetailDomain(drug?.Id ?? 0, drug?.Name ?? "", drug?.Url ?? "");
+        return new DrugDetailDomain(drug?.Id ?? 0, drug?.Name ?? "", drug?.Url ?? "", drug?.Note);
     }
 
     public async Task CreateDrugAsync(string drugName, string url)
@@ -39,6 +39,16 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
     public async Task DeleteDrugAsync(int id)
     {
         await client.ApiDrugsDeleteAsync(id);
+    }
+
+    public async Task UpdateDrugAsync(int id, string drugName, string url, string? note)
+    {
+        await client.ApiDrugsPutAsync(id, new Update_drug_request
+        {
+            Drug_name = drugName,
+            Url = url,
+            Note = note,
+        });
     }
 
     public async Task<MedicationHistoryListResult> GetMedicationHistoriesAsync(
@@ -76,7 +86,17 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
         return MapMedicationHistory(result.Data?.Drug!);
     }
 
+    public async Task<MedicationHistoryDetailDomain> UpdateMedicationHistoryAsync(int id, decimal amount, string? note)
+    {
+        var result = await client.ApiMedicationHistoriesPutAsync(id, new Update_medication_history_request
+        {
+            Amount = (double)amount,
+            Note = note,
+        });
+        return MapMedicationHistory(result.Data!);
+    }
+
     private static MedicationHistoryDetailDomain MapMedicationHistory(Medication_history_detail h) =>
         new(h.Id, h.UserId ?? 0, (decimal)h.Amount, h.DrugId ?? 0,
-            h.DrugName, h.DrugUrl, h.CreatedAt, h.UpdatedAt);
+            h.DrugName, h.DrugUrl, h.Note, h.CreatedAt, h.UpdatedAt);
 }

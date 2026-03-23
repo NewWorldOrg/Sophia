@@ -19,6 +19,11 @@ public sealed class DrugService(ILilyClient lilyClient)
         await lilyClient.CreateDrugAsync(drugName, url);
     }
 
+    public async Task UpdateAsync(int id, string drugName, string url, string? note)
+    {
+        await lilyClient.UpdateDrugAsync(id, drugName, url, note);
+    }
+
     public async Task DeleteAsync(int id)
     {
         await lilyClient.DeleteDrugAsync(id);
