@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sophia.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using Sophia.Infrastructure.DbContext;
 namespace Sophia.Db.Migrations
 {
     [DbContext(typeof(SophiaContext))]
-    partial class SophiaContextModelSnapshot : ModelSnapshot
+    [Migration("20260321042157_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,12 +45,6 @@ namespace Sophia.Db.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("created_at")
                         .HasComment("作成日時");
-
-                    b.Property<string>("DiscordUserId")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("discord_user_id")
-                        .HasComment("Discord User ID");
 
                     b.Property<string>("IconUrl")
                         .IsRequired()
@@ -88,21 +85,21 @@ namespace Sophia.Db.Migrations
                         {
                             Id = 1L,
                             Auth0Sub = "auth0|test-user-1",
-                            CreatedAt = new DateTime(2026, 3, 22, 16, 56, 34, 965, DateTimeKind.Utc).AddTicks(5558),
+                            CreatedAt = new DateTime(2026, 3, 21, 4, 21, 56, 818, DateTimeKind.Utc).AddTicks(6040),
                             IconUrl = "",
                             Name = "山根綺",
                             Status = 0,
-                            UpdatedAt = new DateTime(2026, 3, 22, 16, 56, 34, 965, DateTimeKind.Utc).AddTicks(5716)
+                            UpdatedAt = new DateTime(2026, 3, 21, 4, 21, 56, 818, DateTimeKind.Utc).AddTicks(6303)
                         },
                         new
                         {
                             Id = 2L,
                             Auth0Sub = "auth0|test-user-2",
-                            CreatedAt = new DateTime(2026, 3, 22, 16, 56, 34, 965, DateTimeKind.Utc).AddTicks(5857),
+                            CreatedAt = new DateTime(2026, 3, 21, 4, 21, 56, 818, DateTimeKind.Utc).AddTicks(6554),
                             IconUrl = "",
                             Name = "桑原由気",
                             Status = 0,
-                            UpdatedAt = new DateTime(2026, 3, 22, 16, 56, 34, 965, DateTimeKind.Utc).AddTicks(5858)
+                            UpdatedAt = new DateTime(2026, 3, 21, 4, 21, 56, 818, DateTimeKind.Utc).AddTicks(6554)
                         });
                 });
 #pragma warning restore 612, 618

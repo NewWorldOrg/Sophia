@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Sophia.Api.Converters;
-using Sophia.Domain.Lily;
+using Sophia.Api.Services;
 using Sophia.Infrastructure;
-using Sophia.Infrastructure.Lily;
 
 public static class ApplicationServiceExtensions
 {
     public static void AddApplicationServices(this IServiceCollection services)
     {
+        services.AddScoped<DrugService>();
+        services.AddScoped<MedicationHistoryService>();
     }
 
     public static WebApplicationBuilder AddApplicationBuilder(
@@ -80,11 +81,7 @@ public static class ApplicationServiceExtensions
             };
         });
 
-        // Lily API Client
-        builder.Services.AddHttpClient<ILilyClient, LilyClient>(client =>
-        {
-            client.BaseAddress = new Uri(configuration["Lily:BaseUrl"]!);
-        });
+        builder.Services.AddClients(configuration);
 
         // CORS
         var graceOrigin = configuration["Grace:Origin"]!;
