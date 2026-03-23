@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Sophia.Api.Converters;
+using Sophia.Api.Services;
 using Sophia.Infrastructure;
 
 public static class ApplicationServiceExtensions
 {
     public static void AddApplicationServices(this IServiceCollection services)
     {
+        services.AddScoped<DrugService>();
+        services.AddScoped<MedicationHistoryService>();
     }
 
     public static WebApplicationBuilder AddApplicationBuilder(

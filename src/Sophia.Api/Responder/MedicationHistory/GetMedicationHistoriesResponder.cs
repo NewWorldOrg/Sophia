@@ -1,11 +1,11 @@
 namespace Sophia.Api.Responder.MedicationHistory;
 
-using Sophia.Infrastructure.Lily.Generated;
+using Sophia.Domain.Lily;
 
-public record GetMedicationHistoriesResponder : BaseResponder<Get_medication_history_list_responder>
+public record GetMedicationHistoriesResponder : BaseResponder<MedicationHistoryListResult>
 {
-    private GetMedicationHistoriesResponder(Get_medication_history_list_responder data)
+    private GetMedicationHistoriesResponder(MedicationHistoryListResult data)
         : base(true, "", null, data) { }
 
-    public static GetMedicationHistoriesResponder Create(Get_medication_history_list_responder data) => new(data);
+    public static GetMedicationHistoriesResponder Create(MedicationHistoryListResult data) => new(data);
 }
