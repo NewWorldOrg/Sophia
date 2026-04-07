@@ -8,6 +8,7 @@ public record MedicationHistoryDetail(
     string DrugName,
     string DrugUrl,
     string? Note,
+    string? MedicationDate,
     string CreatedAt,
     string UpdatedAt
 );
