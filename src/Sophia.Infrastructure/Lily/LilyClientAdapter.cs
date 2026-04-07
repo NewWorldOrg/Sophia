@@ -93,7 +93,7 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
         {
             Amount = (double)amount,
             Note = note,
-            Medication_date = medicationDate is not null ? DateTimeOffset.Parse(medicationDate) : null,
+            Medication_date = medicationDate,
         });
         return MapMedicationHistory(result.Data!);
     }
@@ -105,5 +105,5 @@ public sealed class LilyClientAdapter(ILilyGeneratedClient client) : ILilyClient
 
     private static MedicationHistoryDetailDomain MapMedicationHistory(Medication_history_detail h) =>
         new(h.Id, h.UserId ?? 0, (decimal)h.Amount, h.DrugId ?? 0,
-            h.DrugName, h.DrugUrl, h.Note, h.CreatedAt, h.UpdatedAt);
+            h.DrugName, h.DrugUrl, h.Note, h.MedicationDate, h.CreatedAt, h.UpdatedAt);
 }

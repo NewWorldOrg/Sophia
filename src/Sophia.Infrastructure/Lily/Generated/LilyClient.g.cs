@@ -1252,6 +1252,9 @@ namespace Sophia.Infrastructure.Lily.Generated
         [System.Text.Json.Serialization.JsonPropertyName("note")]
         public string Note { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("medicationDate")]
+        public string MedicationDate { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("createdAt")]
         public string CreatedAt { get; set; }
 
@@ -1442,7 +1445,7 @@ namespace Sophia.Infrastructure.Lily.Generated
         public string Note { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("medication_date")]
-        public System.DateTimeOffset? Medication_date { get; set; }
+        public string Medication_date { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
